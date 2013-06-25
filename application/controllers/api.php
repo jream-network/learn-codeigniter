@@ -86,8 +86,6 @@ class Api extends CI_Controller
     public function get_todo($id = null)
     {
         $this->_require_login();
-        $this->session->userdata('user_id');
-        
         
         if ($id != null) {
             $result = $this->todo_model->get([
@@ -185,9 +183,22 @@ class Api extends CI_Controller
     
     // ------------------------------------------------------------------------
 
-    public function get_note()
+    public function get_note($id = null)
     {
         $this->_require_login();
+        
+        if ($id != null) {
+            $result = $this->note_model->get([
+                'note_id' => $id,
+                'user_id' => $this->session->userdata('user_id')
+            ]);
+        } else {
+            $result = $this->note_model->get([
+                'user_id' => $this->session->userdata('user_id')
+            ]);
+        }
+        
+        $this->output->set_output(json_encode($result));
     }
     
     // ------------------------------------------------------------------------
@@ -195,6 +206,37 @@ class Api extends CI_Controller
     public function create_note()
     {
         $this->_require_login();
+        
+        $this->form_validation->set_rules('title', 'title', 'required|max_length[50]');
+        $this->form_validation->set_rules('content', 'Content', 'required|max_length[500]');
+        if ($this->form_validation->run() == false) {
+            $this->output->set_output(json_encode([
+                'result' => 0,
+                'error' => $this->form_validation->error_array()
+            ]));
+            
+            return false;
+        }
+        
+        $result = $this->note_model->insert([
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content'),
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+        
+        if ($result) {
+            
+            // Get the freshest entry for the DOM
+            $this->output->set_output(json_encode([
+                'result' => 1,
+                'data' => $result
+            ]));
+            return false;
+        }
+        $this->output->set_output(json_encode([
+            'result' => 0,
+            'error' => 'Could not insert record'
+        ]));
     }
     
     // ------------------------------------------------------------------------
