@@ -1,9 +1,9 @@
 <?php
 
-class User_model extends CRUD_model
+class Todo_model extends CRUD_model
 {
-    protected $_table = 'user';
-    protected $_primary_key = 'user_id';
+    protected $_table = 'todo';
+    protected $_primary_key = 'todo_id';
     
     // ------------------------------------------------------------------------
     

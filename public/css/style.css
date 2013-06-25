@@ -14,6 +14,10 @@
     min-height: 500px;
 }
 
+.todo_complete {
+    color: #b3b3b3;
+}
+
 /** Generic Stuff */
 .hide {
     display: none;

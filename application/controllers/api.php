@@ -8,6 +8,9 @@ class Api extends CI_Controller
     public function __construct() 
     {
         parent::__construct();
+        $this->load->model('user_model');
+        $this->load->model('todo_model');
+        $this->load->model('note_model');
     }
     
     // ------------------------------------------------------------------------
@@ -27,7 +30,6 @@ class Api extends CI_Controller
         $login = $this->input->post('login');
         $password = $this->input->post('password');
 
-        $this->load->model('user_model');
         $result = $this->user_model->get([
             'login' => $login,
             'password' => hash('sha256', $password . SALT)
@@ -64,7 +66,6 @@ class Api extends CI_Controller
         $password = $this->input->post('password');
         $confirm_password = $this->input->post('confirm_password');
 
-        $this->load->model('user_model');
         $user_id = $this->user_model->insert([
             'login' => $login,
             'password' => hash('sha256', $password . SALT),
@@ -85,18 +86,19 @@ class Api extends CI_Controller
     public function get_todo($id = null)
     {
         $this->_require_login();
+        $this->session->userdata('user_id');
+        
         
         if ($id != null) {
-            $this->db->where([
+            $result = $this->todo_model->get([
                 'todo_id' => $id,
                 'user_id' => $this->session->userdata('user_id')
             ]);
         } else {
-            $this->db->where('user_id', $this->session->userdata('user_id'));
+            $result = $this->todo_model->get([
+                'user_id' => $this->session->userdata('user_id')
+            ]);
         }
-        
-        $query = $this->db->get('todo');
-        $result = $query->result();
         
         $this->output->set_output(json_encode($result));
     }
@@ -117,7 +119,7 @@ class Api extends CI_Controller
             return false;
         }
         
-        $result = $this->db->insert('todo', [
+        $result = $this->todo_model->insert([
             'content' => $this->input->post('content'),
             'user_id' => $this->session->userdata('user_id')
         ]);
@@ -125,11 +127,10 @@ class Api extends CI_Controller
         if ($result) {
             
             // Get the freshest entry for the DOM
-            $query = $this->db->get_where('todo', ['todo_id' => $this->db->insert_id()]);
             
             $this->output->set_output(json_encode([
                 'result' => 1,
-                'data' => $query->result()
+                'data' => $result
             ]));
             return false;
         }
@@ -145,6 +146,19 @@ class Api extends CI_Controller
     {
         $this->_require_login();
         $todo_id = $this->input->post('todo_id');
+        $completed = $this->input->post('completed');
+        
+        $result = $this->todo_model->update([
+            'completed' => $completed
+        ], $todo_id);
+        
+        if ($result) {
+            $this->output->set_output(json_encode(['result' => 1]));
+            return false;
+        }
+        
+        $this->output->set_output(json_encode(['result' => 0]));
+        return false;
     }
     
     // ------------------------------------------------------------------------
@@ -153,12 +167,12 @@ class Api extends CI_Controller
     {
         $this->_require_login();
         
-        $this->db->delete('todo', [
+        $result = $this->todo_model->delete([
             'todo_id' => $this->input->post('todo_id'),
             'user_id' => $this->session->userdata('user_id')
         ]);
         
-        if ($this->db->affected_rows() > 0) {
+        if ($result) {
             $this->output->set_output(json_encode(['result' => 1]));
             return false;
         }
