@@ -5,7 +5,6 @@ var Dashboard = function() {
     // ------------------------------------------------------------------------
   
     this.__construct = function() {
-        console.log('Dashboard Created');
         Template= new Template();
         Event   = new Event();
         //Result  = new Result();

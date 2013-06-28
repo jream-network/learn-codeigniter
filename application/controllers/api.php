@@ -128,7 +128,11 @@ class Api extends CI_Controller
             
             $this->output->set_output(json_encode([
                 'result' => 1,
-                'data' => $result
+                'data' => array(
+                    'todo_id' => $result,
+                    'content' => $this->input->post('content'),
+                    'complete' => 0
+                )
             ]));
             return false;
         }
@@ -229,7 +233,11 @@ class Api extends CI_Controller
             // Get the freshest entry for the DOM
             $this->output->set_output(json_encode([
                 'result' => 1,
-                'data' => $result
+                'data' => array(
+                    'note_id' => $result,
+                    'title' => $this->input->post('title'),
+                    'content' => $this->input->post('content'),
+                )
             ]));
             return false;
         }
@@ -244,7 +252,19 @@ class Api extends CI_Controller
     public function update_note()
     {
         $this->_require_login();
+        
         $note_id = $this->input->post('note_id');
+        
+        $result = $this->note_model->update([
+            'title' => $this->input->post('title'),
+            'content' => $this->input->post('content')
+        ], $note_id);
+
+        // Do not check the $result because if no affected rows happen
+        // they will think its an error
+        
+        $this->output->set_output(json_encode(['result' => 1]));
+        return false;
     }
     
     // ------------------------------------------------------------------------
@@ -252,7 +272,21 @@ class Api extends CI_Controller
     public function delete_note()
     {
         $this->_require_login();
-        $note_id = $this->input->post('note_id');
+        
+        $result = $this->note_model->delete([
+            'note_id' => $this->input->post('note_id'),
+            'user_id' => $this->session->userdata('user_id')
+        ]);
+        
+        if ($result) {
+            $this->output->set_output(json_encode(['result' => 1]));
+            return false;
+        }
+        
+        $this->output->set_output(json_encode([
+            'result' => 0,
+            'message' => 'Could not delete.'
+        ]));
     }
     
     // ------------------------------------------------------------------------

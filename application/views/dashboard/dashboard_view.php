@@ -6,7 +6,9 @@
             <input type="submit" value="Create" />
         </form>
         
-        <div id="list_todo"><!-- Dynamic --></div>
+        <div id="list_todo">
+            <div class="ajax-loader-gray"></div>
+        </div>
     </div>
     
     <div id="dashboard-main" class="span8">
@@ -16,7 +18,9 @@
             <input type="submit" value="Create" />
         </form>
         
-        <div id="list_note"><!-- Dynamic --></div>
+        <div id="list_note">
+            <div class="ajax-loader-gray"></div>
+        </div>
     </div>
     
     
