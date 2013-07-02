@@ -11,9 +11,11 @@
 </head>
 <body>
         
-<header>
-    jrDash
-</header>
+<div id="header">
+    <div class="container">
+        <h3>jrDash</h3>
+    </div>
+</div>
 
-<!-- start:wrapper -->
-<div class="wrapper">
+<!-- start:container -->
+<div class="container">

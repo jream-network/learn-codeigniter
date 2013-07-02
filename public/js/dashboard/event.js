@@ -78,11 +78,11 @@ var Event = function() {
                 if (o.result == 1) {
                     
                     if (postData.completed == 1) {
-                        self.parent('div').addClass('todo_complete');
+                        $('#todo_' + postData.todo_id).addClass('todo_complete')
                         self.html('<i class="icon-share-alt"></i>');
                         self.attr('data-completed', 0);
                     } else {
-                        self.parent('div').removeClass('todo_complete');
+                        $('#todo_' + postData.todo_id).removeClass('todo_complete')
                         self.html('<i class="icon-ok"></i>');
                         self.attr('data-completed', 1);
                     }

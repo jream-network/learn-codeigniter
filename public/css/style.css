@@ -1,7 +1,38 @@
+@import url('http://fonts.googleapis.com/css?family=Ubuntu+Condensed');
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Ubuntu Condensed', sans-serif;
+}
+
 /** Override Bootstrap */
-.wrapper {
-    width: 980px;
+.container {
+    width: 940px;
     margin: 0 auto;
+}
+
+#header {
+    background: #f5f5f5;
+    margin-bottom: 50px;
+}
+
+#footer {
+    margin-top: 50px;
+    text-align: right;
+}
+
+#footer .container {
+    border-top: 1px solid #f5f5f5;
+    padding-top: 20px;
+    color: #b3b3b3;
+}
+
+.navbar .container {
+    width: 940px;
+    margin: 0 auto;
+}
+
+.navbar .nav {
+    width: 60%;
 }
 
 #dashboard-side {
@@ -17,6 +48,46 @@
 .todo_complete {
     color: #b3b3b3;
 }
+
+#list_todo {
+    margin: 0 15px 0 15px;
+}
+
+#list_todo div {
+    padding: 3px 2px;
+    border-radius: 3px;
+    overflow: auto;
+    clear: both;
+}
+
+#list_todo div span:first-child {
+    width: 222px;
+    float: left;
+    display: block;
+    overflow: auto;
+}
+
+#list_todo div:hover {
+    background: rgba(255, 255, 255, 0.8)
+}
+
+#list_todo span.options {
+    float: right;
+}
+
+#list_todo span.options a {
+    margin-left: 4px;
+}
+
+#list_todo span.options a:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/** Form Creates */
+#create_todo, #create_note {
+    padding: 5px 0 5px 5px;
+}
+
 
 /** Generic Stuff */
 
