@@ -49,15 +49,22 @@ h1, h2, h3, h4, h5 {
     color: #b3b3b3;
 }
 
-#list_todo {
+#list_todo, 
+#list_note {
     margin: 0 15px 0 15px;
 }
 
-#list_todo div {
+#list_todo div, 
+#list_note div {
     padding: 3px 2px;
     border-radius: 3px;
     overflow: auto;
     clear: both;
+}
+
+#list_todo div:hover, 
+#list_note div:hover {
+    background: rgba(255, 255, 255, 0.8)
 }
 
 #list_todo div span:first-child {
@@ -67,19 +74,19 @@ h1, h2, h3, h4, h5 {
     overflow: auto;
 }
 
-#list_todo div:hover {
-    background: rgba(255, 255, 255, 0.8)
-}
 
-#list_todo span.options {
+#list_todo span.options, 
+#list_note span.options {
     float: right;
 }
 
-#list_todo span.options a {
+#list_todo span.options a, 
+#list_note span.options a {
     margin-left: 4px;
 }
 
-#list_todo span.options a:hover {
+#list_todo span.options a:hover,
+#list_note span.options a:hover {
     background: rgba(0, 0, 0, 0.3);
 }
 
